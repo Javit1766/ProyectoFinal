@@ -5,17 +5,16 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RelojView extends JFrame {
+public class RelojView extends JPanel {
 
     private JLabel lblHora;
     private JLabel lblFecha;
     private Timer timer;
 
-    public RelojView() {
-        setTitle("Reloj Digital");
-        setSize(300, 200);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
+    private JPanel panelPrincipal;
+
+    public RelojView(boolean modoPanel) {
+        panelPrincipal = new JPanel(new BorderLayout());
 
         JPanel panel = new JPanel();
         panel.setBackground(new Color(52, 58, 64));
@@ -32,13 +31,20 @@ public class RelojView extends JFrame {
         panel.add(lblHora);
         panel.add(lblFecha);
 
-        add(panel, BorderLayout.CENTER);
+        panelPrincipal.add(panel, BorderLayout.CENTER);
 
         timer = new Timer(1000, e -> actualizarReloj());
         timer.start();
 
-        setLocationRelativeTo(null);
-        setVisible(true);
+        if (!modoPanel) {
+            JFrame frame = new JFrame("Reloj Digital");
+            frame.setSize(300, 200);
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frame.setLayout(new BorderLayout());
+            frame.add(panelPrincipal, BorderLayout.CENTER);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        }
     }
 
     private void actualizarReloj() {
@@ -46,4 +52,14 @@ public class RelojView extends JFrame {
         lblHora.setText(new SimpleDateFormat("HH:mm:ss").format(ahora));
         lblFecha.setText(new SimpleDateFormat("EEEE, dd MMMM yyyy").format(ahora));
     }
+
+    public JPanel getPanelPrincipal() {
+        return panelPrincipal;
+    }
+
+    // Solo para pruebas independientes
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new RelojView(false));
+    }
 }
+

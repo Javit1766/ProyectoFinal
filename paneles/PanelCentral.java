@@ -3,33 +3,22 @@ package paneles;
 import views.CalculadoraView;
 import views.RelojView;
 
+import javax.swing.*;
+
 public class PanelCentral {
 
-    private PanelCalculadora panelCalculadora;
+    private JFrame dashboard;
 
-    public PanelCentral() {
-        panelCalculadora = new PanelCalculadora();
+    public PanelCentral(JFrame dashboard) {
+        this.dashboard = dashboard;
     }
 
-    // Abre la vista Calculadora
     public void abrirCalculadora() {
-        CalculadoraView calcView = new CalculadoraView(this);
-        calcView.setVisible(true);
+        new CalculadoraView();
     }
 
-    // Abre la vista Reloj
     public void abrirReloj() {
-        RelojView relojView = new RelojView();
-        relojView.setVisible(true);
+        new RelojView(false);
     }
 
-    // Ejecuta operación de la calculadora desde la vista
-    public double operarCalculadora(String tipo, double a, double b) {
-        return panelCalculadora.operar(tipo, a, b);
-    }
-
-    // Historial de la calculadora
-    public java.util.List<String> historialCalculadora() {
-        return panelCalculadora.obtenerHistorial();
-    }
 }
